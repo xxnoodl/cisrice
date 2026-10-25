@@ -1,0 +1,64 @@
+name: cisrice
+x-backend: &backend
+  build:
+    context: .
+    dockerfile: infrastructure/docker/backend.Dockerfile
+  environment:
+    DATABASE_URL: ${DATABASE_URL:?Copy .env.example to .env first}
+    REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
+    STORAGE_ROOT: ${STORAGE_ROOT:-/data}
+  security_opt: ["no-new-privileges:true"]
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: cisrice
+      POSTGRES_USER: cisrice
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes: ["postgres_data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cisrice -d cisrice"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  redis:
+    image: redis:7.4-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes: ["redis_data:/data"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  migrate:
+    <<: *backend
+    command: ["alembic", "upgrade", "head"]
+    depends_on:
+      postgres: {condition: service_healthy}
+  api:
+    <<: *backend
+    ports: ["127.0.0.1:8000:8000"]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health/ready', timeout=10)"]
+      interval: 15s
+      timeout: 12s
+      retries: 5
+  worker:
+    <<: *backend
+    command: ["celery", "-A", "app.workers.celery_app:celery_app", "worker", "--loglevel=INFO", "--concurrency=1"]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+  frontend:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/frontend.Dockerfile
+    ports: ["127.0.0.1:8080:8080"]
+    depends_on:
+      api: {condition: service_healthy}
+volumes:
+  postgres_data:
+  redis_data:

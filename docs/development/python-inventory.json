@@ -1,0 +1,387 @@
+[
+  {
+    "name": "alembic",
+    "version": "1.20.1",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "amqp",
+    "version": "5.4.1",
+    "declared_license": "BSD"
+  },
+  {
+    "name": "annotated-doc",
+    "version": "0.0.5",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "annotated-types",
+    "version": "0.8.0",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "anyio",
+    "version": "4.15.1",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "billiard",
+    "version": "4.3.1",
+    "declared_license": "BSD"
+  },
+  {
+    "name": "boolean.py",
+    "version": "5.0",
+    "declared_license": "BSD-2-Clause"
+  },
+  {
+    "name": "CacheControl",
+    "version": "0.14.4",
+    "declared_license": "Apache-2.0"
+  },
+  {
+    "name": "celery",
+    "version": "5.6.3",
+    "declared_license": "BSD-3-Clause"
+  },
+  {
+    "name": "certifi",
+    "version": "2026.10.23",
+    "declared_license": "MPL-2.0"
+  },
+  {
+    "name": "charset-normalizer",
+    "version": "3.5.2",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "cisrice-backend",
+    "version": "0.1.0",
+    "declared_license": "unspecified"
+  },
+  {
+    "name": "click",
+    "version": "8.5.0",
+    "declared_license": "BSD-3-Clause"
+  },
+  {
+    "name": "click-didyoumean",
+    "version": "0.3.1",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "click-plugins",
+    "version": "1.1.1.2",
+    "declared_license": "New BSD"
+  },
+  {
+    "name": "click-repl",
+    "version": "0.4.1",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "colorama",
+    "version": "0.4.6",
+    "declared_license": "unspecified"
+  },
+  {
+    "name": "cyclonedx-python-lib",
+    "version": "11.12.0",
+    "declared_license": "Apache-2.0"
+  },
+  {
+    "name": "defusedxml",
+    "version": "0.7.1",
+    "declared_license": "PSFL"
+  },
+  {
+    "name": "fastapi",
+    "version": "0.162.0",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "filelock",
+    "version": "4.2.4",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "greenlet",
+    "version": "3.5.6",
+    "declared_license": "MIT AND PSF-2.0"
+  },
+  {
+    "name": "h11",
+    "version": "0.16.0",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "httpcore",
+    "version": "1.0.9",
+    "declared_license": "BSD-3-Clause"
+  },
+  {
+    "name": "httpx",
+    "version": "0.28.1",
+    "declared_license": "BSD-3-Clause"
+  },
+  {
+    "name": "idna",
+    "version": "3.20",
+    "declared_license": "BSD-3-Clause"
+  },
+  {
+    "name": "iniconfig",
+    "version": "2.3.1",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "kombu",
+    "version": "5.6.2",
+    "declared_license": "BSD-3-Clause"
+  },
+  {
+    "name": "librt",
+    "version": "0.16.0",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "license-expression",
+    "version": "30.4.4",
+    "declared_license": "Apache-2.0"
+  },
+  {
+    "name": "Mako",
+    "version": "1.4.3",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "markdown-it-py",
+    "version": "4.2.0",
+    "declared_license": "unspecified"
+  },
+  {
+    "name": "MarkupSafe",
+    "version": "3.0.4",
+    "declared_license": "BSD-3-Clause"
+  },
+  {
+    "name": "mdurl",
+    "version": "0.1.2",
+    "declared_license": "unspecified"
+  },
+  {
+    "name": "msgpack",
+    "version": "1.2.3",
+    "declared_license": "Apache-2.0"
+  },
+  {
+    "name": "mypy",
+    "version": "1.20.2",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "mypy_extensions",
+    "version": "1.1.0",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "opentelemetry-api",
+    "version": "1.45.1",
+    "declared_license": "Apache-2.0"
+  },
+  {
+    "name": "packageurl-python",
+    "version": "0.17.6",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "packaging",
+    "version": "26.3",
+    "declared_license": "Apache-2.0 OR BSD-2-Clause"
+  },
+  {
+    "name": "pathspec",
+    "version": "1.1.1",
+    "declared_license": "unspecified"
+  },
+  {
+    "name": "pip",
+    "version": "26.2.2",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "pip-requirements-parser",
+    "version": "32.0.1",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "pip_api",
+    "version": "0.0.35",
+    "declared_license": "Apache License"
+  },
+  {
+    "name": "pip_audit",
+    "version": "2.10.1",
+    "declared_license": "unspecified"
+  },
+  {
+    "name": "platformdirs",
+    "version": "4.13.5",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "pluggy",
+    "version": "1.7.0",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "prompt_toolkit",
+    "version": "3.0.53",
+    "declared_license": "unspecified"
+  },
+  {
+    "name": "psycopg",
+    "version": "3.3.6",
+    "declared_license": "LGPL-3.0-only"
+  },
+  {
+    "name": "psycopg-binary",
+    "version": "3.3.6",
+    "declared_license": "LGPL-3.0-only"
+  },
+  {
+    "name": "py-serializable",
+    "version": "2.1.0",
+    "declared_license": "Apache-2.0"
+  },
+  {
+    "name": "pydantic",
+    "version": "2.14.1",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "pydantic-settings",
+    "version": "2.16.1",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "pydantic_core",
+    "version": "2.50.1",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "Pygments",
+    "version": "2.21.0",
+    "declared_license": "BSD-2-Clause"
+  },
+  {
+    "name": "pyparsing",
+    "version": "3.3.3",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "pytest",
+    "version": "9.1.1",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "python-dateutil",
+    "version": "3.0.0",
+    "declared_license": "Dual License"
+  },
+  {
+    "name": "python-dotenv",
+    "version": "1.2.4",
+    "declared_license": "BSD-3-Clause"
+  },
+  {
+    "name": "redis",
+    "version": "7.4.1",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "requests",
+    "version": "2.34.2",
+    "declared_license": "Apache-2.0"
+  },
+  {
+    "name": "rich",
+    "version": "15.0.0",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "ruff",
+    "version": "0.17.2",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "six",
+    "version": "1.17.0",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "sortedcontainers",
+    "version": "2.4.0",
+    "declared_license": "Apache 2.0"
+  },
+  {
+    "name": "SQLAlchemy",
+    "version": "2.0.55",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "starlette",
+    "version": "1.10.0",
+    "declared_license": "BSD-3-Clause"
+  },
+  {
+    "name": "tomli",
+    "version": "2.5.0",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "tomli_w",
+    "version": "1.2.0",
+    "declared_license": "unspecified"
+  },
+  {
+    "name": "typing-inspection",
+    "version": "0.4.4",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "typing_extensions",
+    "version": "4.16.0",
+    "declared_license": "PSF-2.0"
+  },
+  {
+    "name": "tzdata",
+    "version": "2026.5",
+    "declared_license": "Apache-2.0"
+  },
+  {
+    "name": "tzlocal",
+    "version": "5.4.5",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "urllib3",
+    "version": "2.8.0",
+    "declared_license": "MIT"
+  },
+  {
+    "name": "uvicorn",
+    "version": "0.54.0",
+    "declared_license": "BSD-3-Clause"
+  },
+  {
+    "name": "vine",
+    "version": "5.1.0",
+    "declared_license": "BSD"
+  },
+  {
+    "name": "wcwidth",
+    "version": "0.9.4",
+    "declared_license": "unspecified"
+  }
+]

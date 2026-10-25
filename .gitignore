@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+node_modules/
+dist/
+coverage/
+*.egg-info/
+data/
+playwright-report/
+test-results/
+.audit-cache/
