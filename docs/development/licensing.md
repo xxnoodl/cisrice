@@ -1,6 +1,8 @@
 # Dependency and licensing review
 
-Repository license is pending owner choice and distribution audit. No compatibility
+Repository license is MIT, retained from the existing GitHub initial commit, including
+its copyright notice. The bootstrap initially deferred a license decision; integration
+preserves the destination repository's existing choice. No third-party compatibility
 claim is made. Frontend lockfile captures resolved versions. Python packages use
 constrained direct versions; exact deployed transitive versions remain unlocked.
 

@@ -20,5 +20,7 @@ Readiness requires both live services and the expected migration revision. Migra
 run in a dedicated one-shot container, never at API import. No fake users or accounts.
 Storage directories and domain packages reserve structure only; no fabricated features.
 PostgreSQL container owner is migration owner for M0; split runtime privileges before
-business endpoints in M1. No repository license grant until dependency audit and owner
-choice. Redis server and GPL media tooling need separate distribution review.
+business endpoints in M1. During GitHub integration, the destination repository already
+contained an MIT license selected in its initial commit. Preserve that license and
+copyright notice. This does not establish third-party dependency compatibility;
+Redis server and GPL media tooling still need separate distribution review.

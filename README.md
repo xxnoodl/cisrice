@@ -63,5 +63,7 @@ See AGENTS.md for quality commands and docs/operations/deployment.md for verific
 No authentication, discovery, media processing, inference, publishing or analytics yet.
 No accounts connected; no mocked platform metrics. Only health endpoints are exposed.
 Docker startup, real database/Redis integration and Windows/WSL2 compatibility must be
-verified before Milestone 0 acceptance. No backup/restore claims. License pending.
+verified before Milestone 0 acceptance. No backup/restore claims. The repository uses
+the MIT license retained from its existing GitHub initial commit; third-party
+distribution compatibility review remains pending.
 See STATUS.md for current evidence and IMPLEMENTATION_PLAN.md for remaining work.

@@ -44,7 +44,8 @@ not started. This is a working health/dashboard foundation, not the full product
 
 ## Outstanding
 - Run documented Compose acceptance and migration round trip on disposable services.
-- Repository license and full resolved dependency/image license audit pending.
+- Existing GitHub MIT license preserved during history integration. Full resolved
+  dependency/image license compatibility and distribution audit remains pending.
 - Before M1 business APIs: least-privilege runtime DB role, authentication, rate limits,
   scoped authorization and audit. Credential encryption precedes token storage.
 - No media data, backups, restore guarantees, resource coordination or offline cache yet.
