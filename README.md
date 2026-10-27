@@ -1,13 +1,15 @@
 # Cisrice
 
 Local-first, multi-brand social media research, media, production, publishing and
-analytics platform. This repository currently implements the Milestone 0 foundation.
+analytics platform. Milestone 0 is implemented and verified on native Linux.
 Authentication and all content workflows are planned, not available.
 
 React/TypeScript/Vite dashboard → same-origin FastAPI modular monolith → PostgreSQL.
 Celery uses Redis for transport; no business tasks are registered yet. Linux is the
 reference target; Windows requires Docker Desktop using Linux containers and WSL2.
-Both deployment paths remain unverified on the current machine because Docker is absent.
+Backend/frontend development quality gates have passed on native Arch Linux.
+Full container deployment is verified on native Linux. Windows/WSL2 compatibility
+remains unverified; see STATUS.md for the exact verification checkpoint.
 
 ## Start
 
@@ -62,8 +64,22 @@ See AGENTS.md for quality commands and docs/operations/deployment.md for verific
 
 No authentication, discovery, media processing, inference, publishing or analytics yet.
 No accounts connected; no mocked platform metrics. Only health endpoints are exposed.
-Docker startup, real database/Redis integration and Windows/WSL2 compatibility must be
-verified before Milestone 0 acceptance. No backup/restore claims. The repository uses
+Docker startup, PostgreSQL/Redis integration, worker ping and migration round trip
+are verified on native Linux. Windows/WSL2 deployment remains unverified. No
+backup/restore claims. The repository uses
 the MIT license retained from its existing GitHub initial commit; third-party
 distribution compatibility review remains pending.
 See STATUS.md for current evidence and IMPLEMENTATION_PLAN.md for remaining work.
+
+## Native Linux deployment verification
+
+After starting Compose and installing backend development dependencies, run from root:
+
+```sh
+.venv/bin/python infrastructure/scripts/verify_linux.py
+```
+This checks both readiness endpoints and worker ping, then creates a uniquely named
+disposable database for real-service tests and an Alembic migration round trip. It
+drops only that temporary database, leaving application data and volumes intact.
+The verifier uses Linux Docker bridge addresses and is not a Docker Desktop verifier.
+See docs/operations/deployment.md for prerequisites and the verified environment.

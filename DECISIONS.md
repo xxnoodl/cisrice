@@ -24,3 +24,16 @@ business endpoints in M1. During GitHub integration, the destination repository 
 contained an MIT license selected in its initial commit. Preserve that license and
 copyright notice. This does not establish third-party dependency compatibility;
 Redis server and GPL media tooling still need separate distribution review.
+
+Native Linux continuation (2026-10-27): use an isolated uv-managed Python 3.12
+environment on the Arch host rather than altering its system Python 3.14. Keep
+Node 24 as the container/CI baseline; host Node 26.10 also passed current frontend
+checks. Docker installation requires the operator's interactive sudo; do not collect
+sudo passwords or weaken sudo policy for automation.
+
+Deployment verification (2026-10-27): a Linux-only verification utility uses private
+Docker bridge addresses from the host to run tests with the development environment.
+It creates a UUID-named disposable database and never downgrades the application
+database or publishes PostgreSQL/Redis host ports. This keeps test packages out of
+runtime images. Runtime images remain constrained rather than digest-locked;
+Windows/WSL2 validation is a separate, explicitly unverified deployment target.
