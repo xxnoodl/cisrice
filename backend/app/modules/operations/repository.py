@@ -13,5 +13,5 @@ class HealthRepository:
     def schema_ready(self) -> bool:
         with self.engine.connect() as connection:
             return connection.execute(text("SELECT version_num FROM alembic_version")).scalar() == (
-                "0001"
+                "0002"
             )

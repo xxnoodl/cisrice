@@ -30,11 +30,15 @@ jobs:
       - run: python -m ruff check backend
       - run: python -m ruff format --check backend
       - run: python -m mypy --config-file backend/pyproject.toml backend/app
-      - run: alembic upgrade head
+      - run: python -m app.core.migrate
+        env:
+          APP_DATABASE_PASSWORD: ci-runtime-password-at-least-24-chars
         working-directory: backend
       - run: alembic check
         working-directory: backend
       - run: python -m pytest backend/tests
+        env:
+          DATABASE_URL: postgresql+psycopg://cisrice_app:ci-runtime-password-at-least-24-chars@localhost:5432/cisrice
       - run: alembic downgrade base
         working-directory: backend
       - run: alembic upgrade head
@@ -58,9 +62,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - uses: actions/setup-node@v4
+        with: {node-version: "24"}
+      - run: python -m pip install 'pip>=26.2,<27'
+      - run: pip install -e './backend[dev]'
+      - run: npm ci
+        working-directory: frontend
+      - run: npm run build
+        working-directory: frontend
+      - run: npx playwright install --with-deps chromium --only-shell
+        working-directory: frontend
       - run: cp .env.example .env
       - run: docker compose config --quiet
       - run: docker compose up --build --wait --wait-timeout 240
+      - run: python infrastructure/scripts/verify_linux.py --e2e
       - run: curl --fail http://localhost:8000/api/health/ready
       - run: curl --fail http://localhost:8080
       - run: docker compose exec -T worker celery -A app.workers.celery_app:celery_app inspect ping --timeout 10

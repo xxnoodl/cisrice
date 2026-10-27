@@ -1,85 +1,126 @@
 # Cisrice
 
-Local-first, multi-brand social media research, media, production, publishing and
-analytics platform. Milestone 0 is implemented and verified on native Linux.
-Authentication and all content workflows are planned, not available.
+Cisrice is a local-first, multi-brand social media research, media, production,
+publishing and analytics platform. Milestone 0 is verified on native Linux.
+Milestone 1 implements local identity and portfolio management; see STATUS.md for
+the current verification checkpoint. Discovery and content workflows are later milestones.
 
-React/TypeScript/Vite dashboard → same-origin FastAPI modular monolith → PostgreSQL.
-Celery uses Redis for transport; no business tasks are registered yet. Linux is the
-reference target; Windows requires Docker Desktop using Linux containers and WSL2.
-Backend/frontend development quality gates have passed on native Arch Linux.
-Full container deployment is verified on native Linux. Windows/WSL2 compatibility
-remains unverified; see STATUS.md for the exact verification checkpoint.
+## Available functionality
 
-## Start
+- Local users, password-based sign-in, expiring sessions and logout.
+- Workspace → niche → brand → registered platform-account hierarchy.
+- Brand identity/style preferences, context switching and audit history.
+- Workspace membership and explicit brand/account permissions with revocation.
+- PostgreSQL-backed authorization and sessions; Redis-backed rate limits.
+- Service health, Docker deployment and isolated database/browser verification.
 
-Prerequisites: Git, Docker Engine with Compose v2 on Linux, or Docker Desktop/WSL2 on
-Windows. Allow network access for initial image/package downloads. No paid AI services.
+Account registration does not connect OAuth or publish anything. Provider passwords
+and tokens are not accepted. No synthetic analytics or successful connections are shown.
 
-Linux:
-```sh
-cp .env.example .env
-# Edit .env: change POSTGRES_PASSWORD and matching DATABASE_URL password.
-docker compose config --quiet
-docker compose up --build -d
-docker compose ps
-curl --fail http://localhost:8000/api/health/ready
-```
+## Architecture and platforms
 
-PowerShell:
-```powershell
-Copy-Item .env.example .env
-# Edit .env: change POSTGRES_PASSWORD and matching DATABASE_URL password.
-docker compose config --quiet
-docker compose up --build -d
-docker compose ps
-Invoke-RestMethod http://localhost:8000/api/health/ready
-```
+React/TypeScript/Vite → same-origin nginx proxy → FastAPI modular monolith →
+PostgreSQL. Celery/Redis provide worker transport; no business tasks are registered
+until durable PostgreSQL jobs and idempotent handlers are implemented.
 
-Dashboard: http://localhost:8080. API docs: http://localhost:8000/docs.
-Stop with `docker compose down` (preserves named database/Redis volumes).
-Never use `down -v` against data you want to keep. This is not a verified backup system.
+Native Linux is the reference deployment. Windows can act as an SSH client to Linux
+without WSL; that workflow is verified. Local Windows Docker Desktop/WSL2 deployment
+remains unverified. macOS is not an initial acceptance target.
 
-## Development
+## Start on Linux
 
-Python 3.12–3.14 and Node 24. From root:
-```sh
-python -m venv .venv
-# Linux: source .venv/bin/activate
-# PowerShell: .\.venv\Scripts\Activate.ps1
-python -m pip install -e './backend[dev]'
-cd frontend
-npm ci
-npm run dev
-```
-In another activated terminal: `cd backend`, then
-`uvicorn app.main:app --host 127.0.0.1 --port 8000`.
-Vite proxies /api to localhost:8000. Without services, dashboard reports degraded.
-For local services set DATABASE_URL and REDIS_URL explicitly; the root Compose .env
-uses container hostnames and is not a host-development configuration.
-Run `alembic upgrade head` from backend before readiness can pass.
-See AGENTS.md for quality commands and docs/operations/deployment.md for verification.
+Requires Git, Docker Engine and Compose v2 or newer. Initial builds need network
+access. No paid AI API or model download is required for current functionality.
 
-## Limits
+From the cloned repository:
 
-No authentication, discovery, media processing, inference, publishing or analytics yet.
-No accounts connected; no mocked platform metrics. Only health endpoints are exposed.
-Docker startup, PostgreSQL/Redis integration, worker ping and migration round trip
-are verified on native Linux. Windows/WSL2 deployment remains unverified. No
-backup/restore claims. The repository uses
-the MIT license retained from its existing GitHub initial commit; third-party
-distribution compatibility review remains pending.
-See STATUS.md for current evidence and IMPLEMENTATION_PLAN.md for remaining work.
+    cp .env.example .env
+    chmod 600 .env
 
-## Native Linux deployment verification
+Edit .env with two distinct passwords: POSTGRES_PASSWORD for the operator/migrations
+and APP_DATABASE_PASSWORD (at least 24 characters) for cisrice_app. Update the matching
+MIGRATION_DATABASE_URL and DATABASE_URL password values.
 
-After starting Compose and installing backend development dependencies, run from root:
+    docker compose config --quiet
+    docker compose up --build --wait --wait-timeout 180
+    docker compose ps
+    curl --fail http://localhost:8000/api/health/ready
 
-```sh
-.venv/bin/python infrastructure/scripts/verify_linux.py
-```
-This checks both readiness endpoints and worker ping, then creates a uniquely named
-disposable database for real-service tests and an Alembic migration round trip. It
-drops only that temporary database, leaving application data and volumes intact.
-The verifier uses Linux Docker bridge addresses and is not a Docker Desktop verifier.
-See docs/operations/deployment.md for prerequisites and the verified environment.
+Create your first user interactively; the password is prompted, never a command argument:
+
+    docker compose exec api python -m app.modules.identity.cli create-user --email you@example.com
+
+Open http://localhost:8080 and sign in. API docs: http://localhost:8000/docs.
+Create a workspace, niche, brand and registered platform account through Portfolio.
+Brand settings are also available through Settings, preserving selected context.
+Additional users are created with the same operator command and granted access in
+Portfolio. No default user or password is created.
+
+Stop with docker compose down; named volumes are preserved. Do not use down -v for
+data you want to retain. A verified migration round trip is not a backup/restore test.
+
+For access from Windows, keep ports local and open an SSH tunnel:
+
+    ssh -N -L 8080:127.0.0.1:8080 user@linux-host
+
+Then visit http://localhost:8080 on Windows. Configure the appropriate SSH identity
+if needed. Do not publish the API, PostgreSQL, Redis or Docker socket to the network.
+
+## Existing Milestone 0 deployments
+
+Do not overwrite the existing .env or database volumes. Keep POSTGRES_PASSWORD
+unchanged, copy the old operator DATABASE_URL into MIGRATION_DATABASE_URL, generate
+APP_DATABASE_PASSWORD, and set DATABASE_URL to cisrice_app with the runtime password.
+Rebuild/start Compose. See docs/operations/deployment.md for the upgrade procedure.
+
+## Development and verification
+
+Reference tools: Python 3.12 and Node 24; Python 3.14/Node 26 have also been exercised
+where recorded in STATUS.md. On Arch with uv:
+
+    uv venv --python 3.12 .venv
+    uv pip install --python .venv/bin/python -e './backend[dev]'
+    cd frontend
+    npm ci
+    npm run lint
+    npm run format:check
+    npm test
+    npm run build
+    npx playwright install chromium --only-shell
+    cd ..
+    .venv/bin/python infrastructure/scripts/verify_linux.py --e2e
+
+The verifier requires the running stack and private .env. It uses Linux bridge
+addresses, creates a unique disposable database, provisions restricted runtime
+privileges, tests migrations and APIs, runs isolated browser servers on 18000/14173,
+then removes only the test database and stops the temporary servers. Use --skip-live
+to test changed code before updating the running API. It is not a Docker Desktop verifier.
+
+AGENTS.md lists backend lint, formatting, type and test commands. Host API development
+needs explicitly reachable DATABASE_URL/REDIS_URL values; Compose hostnames in .env
+are container names. Vite proxies /api to localhost:8000 by default; CISRICE_API_URL
+overrides that target for isolated test servers. Cookie sessions/CSRF tokens are never
+stored in localStorage.
+
+## Security and limits
+
+Passwords use Argon2id. Session tokens are random, HttpOnly, SameSite=Strict, stored
+only as digests in PostgreSQL. Writes require a trusted Origin and session-bound CSRF
+token. The application role cannot create databases/schema or rewrite audit records.
+Only migrations receive operator credentials. .env belongs outside Git and backups
+must protect it. No provider credential-encryption key exists because provider secrets
+are not stored yet; an externally keyed vault is required before adding token storage.
+
+Provisioning is operator-only: no public signup, invitation email or self-service
+password reset. Portfolio UI lists show up to 200 records per collection; API
+pagination is available. Account URLs are stored references, not fetched or verified.
+Publishing, media acquisition, inference and analytics are not implemented yet.
+
+Default HTTP cookies are appropriate only for localhost/SSH-tunneled use. Set
+COOKIE_SECURE=true with explicit ALLOWED_HOSTS/ALLOWED_ORIGINS JSON arrays before a
+separately configured TLS deployment. Redis failure blocks login and business writes;
+authenticated logout still revokes the PostgreSQL session after Origin/CSRF checks.
+
+The existing MIT license is preserved. Third-party distribution compatibility,
+remote CI outcomes, Windows container deployment and backup/restore remain separate
+verification items. See STATUS.md, IMPLEMENTATION_PLAN.md and docs/adr.

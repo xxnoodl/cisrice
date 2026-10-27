@@ -37,3 +37,8 @@ It creates a UUID-named disposable database and never downgrades the application
 database or publishes PostgreSQL/Redis host ports. This keeps test packages out of
 runtime images. Runtime images remain constrained rather than digest-locked;
 Windows/WSL2 validation is a separate, explicitly unverified deployment target.
+
+Milestone 1: ADR 0011 records operator-only user creation, Argon2id, opaque PostgreSQL
+sessions, CSRF/origin protection, explicit authorization and separate migration/runtime
+database roles. No provider passwords/tokens are accepted. Browser acceptance uses
+a disposable database and temporary servers, not the application database.

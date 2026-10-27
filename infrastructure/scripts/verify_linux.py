@@ -6,6 +6,7 @@ through Linux bridge addresses; Docker Desktop is not supported by this verifier
 The application database and volumes are never downgraded or removed.
 """
 
+import argparse
 import json
 import os
 import subprocess
@@ -15,6 +16,7 @@ from urllib.request import urlopen
 from uuid import uuid4
 
 import psycopg
+from browser_fixture import run_browser
 from dotenv import dotenv_values
 from psycopg import sql
 from sqlalchemy.engine import make_url
@@ -50,7 +52,15 @@ def address(service: str) -> str:
 
 
 def main() -> None:
-    for port in (8000, 8080):
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--e2e", action="store_true", help="Run isolated Playwright portfolio workflow"
+    )
+    parser.add_argument(
+        "--skip-live", action="store_true", help="Test new code before live deployment"
+    )
+    args = parser.parse_args()
+    for port in () if args.skip_live else (8000, 8080):
         with urlopen(f"http://127.0.0.1:{port}/api/health/ready", timeout=15) as response:
             health = json.load(response)
         assert health["status"] == "ok", "Dependency readiness failed"
@@ -76,25 +86,36 @@ def main() -> None:
     print("PASS Celery worker ping", flush=True)
 
     config = dotenv_values(ROOT / ".env")
-    database_url = config.get("DATABASE_URL")
+    database_url = config.get("MIGRATION_DATABASE_URL")
     redis_url = config.get("REDIS_URL")
     if not database_url or not redis_url:
-        raise RuntimeError("The verifier requires DATABASE_URL and REDIS_URL in .env")
+        raise RuntimeError("The verifier requires MIGRATION_DATABASE_URL and REDIS_URL in .env")
     database = make_url(database_url).set(host=address("postgres"))
     redis = make_url(redis_url).set(host=address("redis"))
+    runtime_password = config.get("APP_DATABASE_PASSWORD")
+    if not runtime_password or len(runtime_password) < 24:
+        raise RuntimeError("Set APP_DATABASE_PASSWORD to at least 24 characters")
     name = "cisrice_verify_" + uuid4().hex
     environment = dict(os.environ)
     environment.update(
-        DATABASE_URL=database.set(database=name).render_as_string(hide_password=False),
+        DATABASE_URL=database.set(
+            database=name, username="cisrice_app", password=runtime_password
+        ).render_as_string(hide_password=False),
+        APP_DATABASE_PASSWORD=runtime_password,
         REDIS_URL=redis.render_as_string(hide_password=False),
         CISRICE_INTEGRATION="1",
     )
 
-    def run(*args: str) -> None:
+    def run(*args: str, admin: bool = False) -> None:
+        child = dict(environment)
+        if admin:
+            child["DATABASE_URL"] = database.set(database=name).render_as_string(
+                hide_password=False
+            )
         subprocess.run(
             [sys.executable, "-m", *args],
             cwd=ROOT / "backend",
-            env=environment,
+            env=child,
             stdin=subprocess.DEVNULL,
             check=True,
             timeout=120,
@@ -112,10 +133,12 @@ def main() -> None:
         admin.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(name)))
         print("Created isolated verification database", flush=True)
         try:
-            run("alembic", "upgrade", "head")
-            run("alembic", "check")
+            run("app.core.migrate", admin=True)
+            run("alembic", "check", admin=True)
             run("pytest", "tests", "-q")
-            run("alembic", "downgrade", "base")
+            if args.e2e:
+                run_browser(environment)
+            run("alembic", "downgrade", "base", admin=True)
             with psycopg.connect(
                 host=database.host,
                 port=database.port or 5432,
@@ -126,8 +149,8 @@ def main() -> None:
             ) as check:
                 row = check.execute("SELECT to_regclass('public.system_records')").fetchone()
                 assert row is not None and row[0] is None
-            run("alembic", "upgrade", "head")
-            run("alembic", "check")
+            run("app.core.migrate", admin=True)
+            run("alembic", "check", admin=True)
             run("pytest", "tests/test_services.py", "-q")
             print("PASS real-service tests and migration round trip", flush=True)
         finally:

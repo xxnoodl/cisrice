@@ -1,96 +1,57 @@
 # Implementation status
 
-Milestone 0: complete on native Linux (2026-10-27). Windows/WSL2 deployment remains
-unverified. Milestone 1 has not started. This is a working health/dashboard foundation, not the full product.
+Milestones 0 and 1 are complete and verified on native Linux (2026-10-27).
+Next milestone: 2, discovery. Windows container deployment and remote CI remain unverified.
 
 ## Implemented
-- Monorepo, modular backend structure, React dashboard with labeled planned areas.
-- FastAPI liveness/readiness, real PostgreSQL/Redis adapters, revision check and
-  correlation IDs; dependency error details redacted.
-- SQLAlchemy foundation model and Alembic upgrade/downgrade.
-- Celery worker configuration with no business tasks; no Redis-authoritative jobs.
-- Compose with migration gating, localhost bindings, isolated database/cache ports,
-  non-root application containers and persistent database/cache volumes.
-- Tests, CI, ten ADRs, development/deployment/license documentation and wrappers.
+- FastAPI/React foundation, PostgreSQL/Alembic, Redis/Celery infrastructure and health dashboard.
+- Local operator-provisioned users, Argon2id passwords, opaque database-backed sessions,
+  login rotation, expiry, logout, CSRF, trusted origins/hosts and Redis rate limits.
+- Workspace memberships, niches, brands, style guides and platform account registration.
+- Server-side workspace, brand and account permissions, last-owner protection,
+  transactional audit records, and frontend context switching/settings.
+- Revision 0002 and separate restricted runtime database role. Runtime cannot create
+  schema objects or update/delete audit events. Operator credentials stay outside runtime.
+- Accessible portfolio forms, membership and permission controls, audit display,
+  and clear registered versus connected account states.
+- Linux verification utility with disposable database and isolated browser credentials.
 
-## Verification checkpoint (2026-10-25)
-- Host: Windows PowerShell; Git, Python 3.14.5, Node 24.16.0, npm 11.13.0,
-  FFmpeg/ffprobe available. Docker, PostgreSQL and Redis absent. Full-path wsl.exe
-  --status confirms Windows Subsystem for Linux is not installed.
-- Backend: Ruff lint passed; strict mypy passed for 23 source files.
-- pytest: 4 passed, 1 real-service test skipped. Offline Alembic SQL generation tested.
-- Upstream Starlette warns that httpx-based TestClient is deprecated; tests pass.
-- Python pip check passed. pip-audit passes after upgrading pip 26.1.1 to 26.2.2;
-  local unpublished project is not auditable through PyPI. Installed dependency/license
-  declarations recorded in docs/development/python-inventory.json.
-- Real Uvicorn HTTP smoke: liveness 200; dependency-unavailable readiness 503.
-- Linux shell wrapper syntax checked with Git Bash; PowerShell wrapper syntax checked
-  with the PowerShell parser. This does not verify either deployment runtime.
-- Frontend: ESLint 10 lint, Prettier format check, TypeScript check and Vite 7.3.7
-  production build pass. Vitest 5.0.5: 4 tests pass. Final npm install audit reports
-  zero vulnerabilities after resolving the initial test-tool advisories.
-- Built dashboard rendered successfully in installed headless Microsoft Edge at both
-  / and /operations, with health panel and navigation mounted. Browser smoke checks
-  rendering only; it does not verify full-stack service connectivity or future workflows.
-- This workspace sandbox denied esbuild ancestor-directory access; build, test and
-  preview succeeded with approved execution outside the sandbox.
+## Verified
+- Native Arch Linux, Docker 29.9.2, Compose 5.6.1; isolated Python 3.12.13.
+- Compose build/start passed; API and frontend readiness and Celery ping passed.
+- Ruff lint/format and strict mypy passed; frontend ESLint, Prettier, TypeScript and build passed.
+- 18 backend tests passed with real PostgreSQL/Redis and the restricted database role.
+- 7 frontend component tests and 2 isolated Playwright tests passed.
+- Additional Playwright smoke passed against the deployed localhost:8080 dashboard.
+- Migration upgrade/check, downgrade to base, re-upgrade/check and post-upgrade
+  service test passed. Only the disposable verification database was removed.
+- Authorization tests cover cross-workspace/brand/account denial, revocation and
+  concurrent owner demotion. Security tests cover CSRF, request limits, expiry,
+  role restrictions, and safe logout during Redis outage.
+- Application database/volumes preserved. No default user or password seeded.
+- .env remains ignored and mode 0600. PostgreSQL/Redis have no published ports;
+  application ports bind localhost. No external publishing occurred.
+- Earlier dependency scans reported no known Python/npm vulnerabilities;
+  this is not a complete third-party distribution/license audit.
 
-## Mocked / blocked
-- Backend unit tests inject explicit dependency probes; no simulated platform data.
-- Native Linux container deployment and real PostgreSQL/Redis/worker checks are verified.
-  Windows/WSL2 deployment remains unverified; no Windows container-runtime claim is made.
-- CI defines these checks but has not been executed in this session.
-- No OAuth, publishing, AI or other external product integrations implemented.
+## Mocked and external integrations
+- Unit tests inject labeled dependency probes; no simulated platform analytics.
+- PostgreSQL, Redis, migrations, Celery heartbeat and browser workflows use real services.
+- No OAuth, platform publishing, discovery, acquisition or AI integration implemented yet.
+- Platform accounts are registered only; registration does not claim connection.
 
-## Outstanding
-- Existing GitHub MIT license preserved during history integration. Full resolved
-  dependency/image license compatibility and distribution audit remains pending.
-- Before M1 business APIs: least-privilege runtime DB role, authentication, rate limits,
-  scoped authorization and audit. Credential encryption precedes token storage.
-- No media data, backups, restore guarantees, resource coordination or offline cache yet.
+## Limitations
+- Operator CLI creates users; invitations, self-service password recovery and OAuth are deferred.
+- UI lists are bounded; large-library pagination remains future work.
+- Windows/WSL2 deployment, GitHub-hosted CI execution and backup/restore remain unverified.
+- Existing GitHub MIT license retained; full resolved dependency/image compatibility review pending.
+- Upstream Starlette TestClient deprecation warning is non-fatal.
+- Docker boot auto-start has not been configured. Native Linux via SSH is the user's
+  preferred workflow; WSL is not required.
+- No business Celery tasks until durable jobs, idempotency and cancellation are implemented.
 
-Next milestone: M1 portfolio and identity; retain publishing approval and brand isolation requirements.
-
-## Handoff preference
-Continue development and deployment verification on native Linux. The user does not
-want to install or run WSL on this Windows machine. Windows/WSL2 remains an unverified
-optional deployment target; it is not a prerequisite for the Linux continuation.
-
-## Linux verification checkpoint (2026-10-27)
-- Work resumed on native Arch Linux through SSH; working tree was clean at 4268340.
-- Host: Python 3.14.7, Node 26.10.0, npm 12.1.0; uv created an isolated Python
-  3.12.13 environment to match the reference container/CI Python version.
-- Backend Ruff lint/format and strict mypy pass. pytest: 4 passed, 1 real-service
-  integration test skipped. pip check passes; pip-audit reports no known vulnerabilities
-  (the unpublished local project itself is not audited through PyPI).
-- Frontend npm ci reports zero vulnerabilities. ESLint, Prettier, all 4 Vitest tests,
-  TypeScript checking and the production build pass on Linux.
-- npm 12 blocked esbuild's postinstall script by default; the optional platform binary
-  was available and both the tests and build succeeded without overriding that policy.
-- Docker/Compose/buildx setup requires interactive sudo on this machine. Container
-  startup, live PostgreSQL/Redis checks, worker ping, migration round trip and a
-  container-served browser smoke remain unverified until that setup is complete.
-
-## Milestone 0 deployment acceptance (2026-10-27)
-- Docker 29.9.2 and Compose 5.6.1 verified on native Arch Linux after rebooting into
-  kernel 7.2.11. Before reboot, the running 7.2.7 kernel had no matching installed
-  modules, preventing Docker bridge networking. No firewall protections were disabled.
-- `docker compose config --quiet` and `docker compose up --build --wait` passed.
-  All application images built; the one-shot migration exited successfully.
-- API and frontend-proxied readiness return HTTP 200 with PostgreSQL, Redis and
-  migration revision checks all ok. Celery worker inspect ping returns pong.
-- All 5 backend tests pass against actual PostgreSQL/Redis. Alembic upgrade/check,
-  downgrade-to-base, re-upgrade/check and post-upgrade integration test pass.
-  Only a uniquely named disposable test database was created and dropped. Application
-  database and volumes were preserved. Reproduce with infrastructure/scripts/verify_linux.py.
-- Container-served overview and operations routes rendered in installed Windows Edge
-  through a temporary localhost SSH tunnel. This verifies Linux serving/browser
-  rendering, not Windows/WSL2 container deployment. The temporary tunnel was closed.
-- API and worker run as uid 10001; nginx runs as uid 101. Published host ports bind
-  only 127.0.0.1; database/cache have no published host ports. Generated .env is mode
-  0600 and ignored by Git; credentials were not logged or committed.
-- Application stack remains running on Linux localhost:8080 (dashboard) and :8000
-  (API). Docker service was started for this session; boot auto-start is not configured.
-- Existing development quality gates and frontend's 4 tests passed on this Linux
-  checkout. Upstream TestClient deprecation warning remains non-fatal. CI execution,
-  full third-party distribution licensing audit and Windows deployment remain unverified.
+## Start and first user
+From ~/cisrice run docker compose up --build --wait.
+Create a user interactively with:
+    docker compose exec api python -m app.modules.identity.cli create-user --email you@example.com
+Open http://localhost:8080 on Linux, or forward that port over SSH from Windows.

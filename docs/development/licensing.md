@@ -32,3 +32,11 @@ Frontend initial Vitest 3 dependency graph had three audit findings (two critica
 Vitest 5.0.5 and supported ESLint 10 are now selected; final install reports zero
 vulnerabilities. package-lock.json records resolved versions and declared licenses.
 Neither npm nor pip audit evaluates source correctness or licenses for compatibility.
+
+Milestone 1 adds argon2-cffi 25.1.0 (declared MIT) and Playwright test tooling
+(declared Apache-2.0). The Linux installed graph is recorded separately in
+python-inventory-linux.json; the original Windows inventory is historical.
+Vendored Argon2, CFFI, browser binaries, base images and redistribution notices still
+need full distribution review. Runtime browser assets do not include test browsers.
+The known-vulnerability scans pass at the recorded implementation checkpoint; that
+does not certify license compatibility or source correctness.

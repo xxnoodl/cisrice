@@ -4,8 +4,8 @@ Reference deployment uses Linux containers; native Windows Celery is unsupported
 Keep repository and Docker data inside WSL2 Linux storage for better filesystem I/O.
 Do not expose the localhost ports publicly: this bootstrap has no authentication.
 PostgreSQL/Redis have no published host ports. Application services use unprivileged users.
-The database bootstrap user owns schema migrations; least-privilege runtime roles are
-a prerequisite for authenticated business functionality.
+The database operator owns migrations; the application uses the restricted cisrice_app
+role provisioned by the migration runner.
 
 After README startup, inspect `docker compose logs migrate api worker frontend`.
 Readiness must be HTTP 200, dashboard must show all three checks ok, and worker logs
@@ -50,3 +50,45 @@ Open http://localhost:8080 on the client. Browser rendering was verified through
 this path; Windows/WSL2 Docker deployment itself is still unverified.
 The application containers remain running after acceptance. Docker daemon and
 application auto-start at boot are not configured by the startup script.
+
+## Milestone 1 credentials and local account setup
+
+Fresh installs: set separate POSTGRES_PASSWORD and APP_DATABASE_PASSWORD values in
+.env and update MIGRATION_DATABASE_URL and DATABASE_URL respectively. The runtime
+password must be at least 24 characters. Keep .env private (chmod 600). Only the
+migration container receives the operator URL and runtime password; API/worker
+receive the restricted runtime URL.
+
+Upgrade from M0: retain POSTGRES_PASSWORD for the existing database volume. Set
+MIGRATION_DATABASE_URL to the prior operator DATABASE_URL, generate a separate
+APP_DATABASE_PASSWORD, and change DATABASE_URL to cisrice_app with that password.
+Do not overwrite an existing .env or delete volumes. Run docker compose up --build
+--wait. Migrations retain application data; a round trip is not a backup/restore test.
+
+Create a local user interactively, without passing a password as an argument:
+
+    docker compose exec api python -m app.modules.identity.cli create-user --email you@example.com
+
+Repeat for additional users, then grant workspace, brand and account permissions
+through Portfolio. No user is created automatically. Self-service password reset
+and invitations are deferred. Do not write plaintext into password_hash.
+
+The verifier now uses MIGRATION_DATABASE_URL to create a disposable database and
+provisions the restricted runtime role there. Backend tests then use that role.
+For browser acceptance, install the frontend dependencies and user-local Chromium:
+
+    cd frontend
+    npm ci
+    npm run build
+    npx playwright install chromium --only-shell
+    cd ..
+    .venv/bin/python infrastructure/scripts/verify_linux.py --e2e
+
+The helper creates a temporary user only in the test database, starts test servers
+on localhost:18000/14173, and stops their process groups afterward. Browser traces
+are disabled; fixture credentials are passed only in process environment. Arch uses
+Playwright's Ubuntu fallback build; record actual browser outcomes. Use --skip-live
+to test new code before updating the application API.
+
+Preserve .env securely in operator backups, never Git. No provider tokens or vault
+encryption key exist in M1. Add an externally keyed vault before storing those tokens.

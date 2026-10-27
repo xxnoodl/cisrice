@@ -13,7 +13,7 @@ from app.main import create_app
 @pytest.mark.skipif(os.getenv("CISRICE_INTEGRATION") != "1", reason="real services not enabled")
 def test_real_services_and_migrated_schema() -> None:
     settings = Settings()
-    with TestClient(create_app(settings)) as client:
+    with TestClient(create_app(settings), base_url="http://localhost") as client:
         assert client.get("/api/health/ready").status_code == 200
     engine = make_engine(settings)
     try:

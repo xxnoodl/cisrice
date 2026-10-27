@@ -3,6 +3,7 @@ from sqlalchemy import create_engine, pool
 
 from app.core.config import Settings
 from app.core.database import Base
+from app.modules.identity import models  # noqa: F401
 from app.modules.operations.models import SystemRecord  # noqa: F401
 
 target_metadata = Base.metadata
