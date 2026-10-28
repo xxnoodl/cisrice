@@ -92,3 +92,12 @@ to test new code before updating the application API.
 
 Preserve .env securely in operator backups, never Git. No provider tokens or vault
 encryption key exist in M1. Add an externally keyed vault before storing those tokens.
+
+## Milestone 2 upgrade
+Existing local users and portfolios are retained. Run docker compose up --build --wait.
+Migration 0003 adds sources, candidates, observations and completed discovery runs;
+the migration container reapplies restricted runtime-role grants. Do not downgrade
+the application database to test migrations: the Linux verifier uses a disposable DB.
+The production entrypoint remains app.main:app. Only the isolated browser verifier
+uses backend/tests/browser_app.py with explicitly simulated feed responses.
+Discovery is synchronous; failures appear in its history. No scheduler is enabled.

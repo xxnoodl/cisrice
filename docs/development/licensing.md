@@ -40,3 +40,6 @@ Vendored Argon2, CFFI, browser binaries, base images and redistribution notices 
 need full distribution review. Runtime browser assets do not include test browsers.
 The known-vulnerability scans pass at the recorded implementation checkpoint; that
 does not certify license compatibility or source correctness.
+
+Milestone 2 adds defusedxml >=0.7.1,<0.8 (PSF license declaration).
+The complete distribution/image compatibility review remains pending.

@@ -42,3 +42,12 @@ Milestone 1: ADR 0011 records operator-only user creation, Argon2id, opaque Post
 sessions, CSRF/origin protection, explicit authorization and separate migration/runtime
 database roles. No provider passwords/tokens are accepted. Browser acceptance uses
 a disposable database and temporary servers, not the application database.
+
+## Milestone 2 (2026-10-28)
+ADR 0012 adopts brand-scoped RSS/Atom sources, explicit policy acknowledgement,
+bounded DNS-pinned HTTPS fetches, synchronous atomic runs and URL deduplication.
+YouTube uses the documented public channel topic feed; no OAuth/API claim.
+Research notes consolidate initial findings; feed categories support topic filtering.
+Routing copies provenance with fresh review state and paused destination sources.
+Initial scores are reproducible editorial heuristics with missing signals preserved.
+Durable asynchronous discovery, semantic clusters and autonomous exploration are deferred.

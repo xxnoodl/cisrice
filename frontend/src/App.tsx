@@ -3,6 +3,7 @@ import { NavLink, Route, Routes, useSearchParams } from "react-router-dom";
 import { api, session, type Workspace, type Niche, type Brand } from "./api";
 import { LoginForm } from "./Auth";
 import { Portfolio } from "./Portfolio";
+import { Discovery } from "./Discovery";
 
 type Health = { status: string; dependencies: Record<string, string> };
 export async function loadHealth(): Promise<Health> {
@@ -70,8 +71,6 @@ function Operations() {
 }
 
 const planned = [
-  "Research",
-  "Discovery",
   "Media Library",
   "Intelligence",
   "Production",
@@ -172,6 +171,18 @@ export function App() {
           <NavLink to={{ pathname: "/operations", search: search.toString() }}>
             Operations
           </NavLink>
+          {user &&
+            ["Discovery", "Research"].map((name) => (
+              <NavLink
+                key={name}
+                to={{
+                  pathname: "/" + name.toLowerCase(),
+                  search: search.toString(),
+                }}
+              >
+                {name}
+              </NavLink>
+            ))}
           {user ? (
             <NavLink to={{ pathname: "/settings", search: search.toString() }}>
               Settings
@@ -203,7 +214,7 @@ export function App() {
       </aside>
       <main id="main">
         <header>
-          <p className="eyebrow">MILESTONE 1 · IDENTITY & PORTFOLIO</p>
+          <p className="eyebrow">MILESTONE 2 · DISCOVERY & RESEARCH</p>
           <h2>Your local production workspace</h2>
           {user && (
             <div className="context" aria-label="Portfolio context">
@@ -290,8 +301,8 @@ export function App() {
                           : "Select or create a brand in Portfolio."}
                       </p>
                       <p>
-                        Research, production, publishing and analytics remain
-                        planned. No platform connections are fabricated.
+                        Production, publishing and analytics remain planned. No
+                        platform connections are fabricated.
                       </p>
                     </section>
                     <Operations />
@@ -303,6 +314,28 @@ export function App() {
             />
             <Route path="/portfolio" element={portfolio} />
             <Route path="/settings" element={portfolio} />
+            {["/discovery", "/research"].map((path) => (
+              <Route
+                key={path}
+                path={path}
+                element={
+                  user ? (
+                    workspace && brand ? (
+                      <Discovery
+                        session={user}
+                        workspace={workspace.id}
+                        brand={brand}
+                        brands={brands.data ?? []}
+                      />
+                    ) : (
+                      <p>Create a workspace and brand in Portfolio first.</p>
+                    )
+                  ) : (
+                    <LoginForm />
+                  )
+                }
+              />
+            ))}
             <Route path="/operations" element={<Operations />} />
             <Route path="*" element={<h2>Page not found</h2>} />
           </Routes>

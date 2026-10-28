@@ -29,6 +29,7 @@ def run_browser(environment: dict[str, str]) -> None:
     env["CISRICE_API_URL"] = "http://127.0.0.1:18000"
     env["ALLOWED_ORIGINS"] = json.dumps(["http://127.0.0.1:14173"])
     env["RATE_NAMESPACE"] = "cisrice-e2e-" + uuid4().hex
+    env["PYTHONPATH"] = str(ROOT / "backend" / "tests") + os.pathsep + str(ROOT / "backend")
     engine = create_engine(env["DATABASE_URL"])
     with Session(engine) as database, database.begin():
         database.add(
@@ -47,7 +48,7 @@ def run_browser(environment: dict[str, str]) -> None:
                         sys.executable,
                         "-m",
                         "uvicorn",
-                        "app.main:app",
+                        "browser_app:app",
                         "--host",
                         "127.0.0.1",
                         "--port",

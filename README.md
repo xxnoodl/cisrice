@@ -2,8 +2,8 @@
 
 Cisrice is a local-first, multi-brand social media research, media, production,
 publishing and analytics platform. Milestone 0 is verified on native Linux.
-Milestone 1 implements local identity and portfolio management; see STATUS.md for
-the current verification checkpoint. Discovery and content workflows are later milestones.
+Milestones 1–2 implement local identity, portfolio management and bounded feed discovery; see STATUS.md for
+the current verification checkpoint. Acquisition, production, publishing and analytics remain later milestones.
 
 ## Available functionality
 
@@ -124,3 +124,18 @@ authenticated logout still revokes the PostgreSQL session after Origin/CSRF chec
 The existing MIT license is preserved. Third-party distribution compatibility,
 remote CI outcomes, Windows container deployment and backup/restore remain separate
 verification items. See STATUS.md, IMPLEMENTATION_PLAN.md and docs/adr.
+
+## Discovery
+Select a brand, open Discovery, and add a permitted publisher's final HTTPS RSS/Atom
+URL or a YouTube channel ID (UC followed by 22 characters). Record the source policy
+and confirm research use is allowed. Set keywords, source quality and optional
+scoring weights, then click Discover. Check the run history for failures.
+Review/filter candidates, save notes, and copy candidates to another authorized
+brand. Research approval does not approve media reuse; rights remain UNKNOWN.
+Research opens the same inbox. No social account connection is needed for feeds.
+
+Discovery is manually triggered and synchronous, with a 60-second source cooldown,
+200 sources per brand, 200 entries and 2 MiB per run. Feed redirects, compression,
+non-HTTPS fetching and private networks are rejected. Source policy acknowledgement
+does not establish redistribution rights. Existing imported data is available offline.
+See docs/api/discovery.md for contracts, scoring and deferred capabilities.
