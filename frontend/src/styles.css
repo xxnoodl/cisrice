@@ -224,3 +224,9 @@ pre {
   padding-left: 16px;
   margin-bottom: 20px;
 }
+.media-preview {
+  display: block;
+  max-width: 100%;
+  width: 360px;
+  max-height: 480px;
+}

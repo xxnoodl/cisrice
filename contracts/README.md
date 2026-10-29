@@ -1,5 +1,7 @@
 # Public contracts
 
-Current public API: docs/api/health.md and FastAPI-generated /openapi.json.
-Domain service/event contracts belong here when first implemented. No speculative
-publishing or editing schemas are represented as functional in M0.
+FastAPI /openapi.json and docs/api describe current HTTP contracts.
+Executable cross-module value contracts are packaged under backend/app/contracts;
+see acquisition.md for discovery/job/media boundaries. Modules use public application
+services and never arbitrarily mutate another module's private entities.
+Publishing and editing contracts remain future milestones, not simulated capabilities.

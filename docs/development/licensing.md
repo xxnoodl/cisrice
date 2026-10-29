@@ -43,3 +43,12 @@ does not certify license compatibility or source correctness.
 
 Milestone 2 adds defusedxml >=0.7.1,<0.8 (PSF license declaration).
 The complete distribution/image compatibility review remains pending.
+
+Milestone 3 adds yt-dlp (declared Unlicense; includes bundled component notices) and
+the distribution's FFmpeg binaries, whose applicable GPL/LGPL terms depend on build
+configuration. Runtime binary version/license output is checked on Linux. These are
+dependency inventory observations, not a complete distribution compatibility audit.
+No new project-license commitment is made; preserve the existing MIT repository license.
+
+Verified deployed tools: FFmpeg 7.1.5-0+deb13u1 reports GNU GPL terms;
+yt-dlp 2026.10.26. Exact runtime package inventory is in python-inventory-container.json.

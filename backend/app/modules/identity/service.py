@@ -50,6 +50,13 @@ class LoginResult:
 
 
 class IdentityService:
+    def authorize_background(self, identifier: UUID, workspace: UUID, brand: UUID) -> User:
+        actor = self.repo.user_by_id(identifier)
+        if actor is None or not actor.is_active:
+            raise HTTPException(403, "Originating user is no longer active")
+        self.require_brand(actor, workspace, brand, write=True)
+        return actor
+
     def __init__(
         self, repository: IdentityRepository, settings: Settings, correlation: str
     ) -> None:

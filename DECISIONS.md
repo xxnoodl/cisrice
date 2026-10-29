@@ -51,3 +51,13 @@ Research notes consolidate initial findings; feed categories support topic filte
 Routing copies provenance with fresh review state and paused destination sources.
 Initial scores are reproducible editorial heuristics with missing signals preserved.
 Durable asynchronous discovery, semantic clusters and autonomous exploration are deferred.
+
+## Milestone 3 (2026-10-29)
+ADRs 0013/0014 establish durable PostgreSQL jobs before download tasks, expiring
+leases and immutable public job contracts; rights decisions gate queueing and output
+registration. A polling dispatcher retains work across Redis delivery failures.
+Direct streaming and a restricted yt-dlp metadata resolver share DNS-pinned public
+HTTPS controls. FFmpeg reads local validated containers only. Canonical SHA-256
+objects are immutable, globally deduplicated and exposed solely through authorized
+brand references. Retention preserves canonical media and requires an operator to
+apply temporary-file cleanup. Platform-specific acquisition remains capability-limited.

@@ -14,6 +14,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from app.core.config import Settings
 from app.core.database import make_engine
 from app.core.http import BodyLimitMiddleware
+from app.modules.acquisition.routes import router as acquisition_router
 from app.modules.discovery.feeds import fetch_feed
 from app.modules.discovery.routes import router as discovery_router
 from app.modules.identity.routes import router as identity_router
@@ -48,6 +49,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=config.allowed_hosts)
     app.include_router(identity_router)
     app.include_router(discovery_router)
+    app.include_router(acquisition_router)
     app.state.checks = {
         "postgresql": repository.ping,
         "redis": redis.ping,

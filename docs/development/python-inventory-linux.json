@@ -2,386 +2,527 @@
   {
     "name": "aiohappyeyeballs",
     "version": "2.7.1",
-    "declared_license": "PSF-2.0"
+    "declared_license": "PSF-2.0",
+    "license_classifiers": [
+      "License :: OSI Approved :: Python Software Foundation License"
+    ]
   },
   {
     "name": "aiohttp",
     "version": "3.14.3",
-    "declared_license": "Apache-2.0 AND MIT"
+    "declared_license": "Apache-2.0 AND MIT",
+    "license_classifiers": []
   },
   {
     "name": "aiosignal",
     "version": "1.4.0",
-    "declared_license": "Apache 2.0"
+    "declared_license": "Apache 2.0",
+    "license_classifiers": [
+      "License :: OSI Approved :: Apache Software License"
+    ]
   },
   {
     "name": "attrs",
     "version": "26.1.0",
-    "declared_license": "MIT"
+    "declared_license": "MIT",
+    "license_classifiers": []
   },
   {
     "name": "autocommand",
     "version": "2.2.2",
-    "declared_license": "unspecified"
+    "declared_license": null,
+    "license_classifiers": [
+      "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)"
+    ]
   },
   {
     "name": "bcc",
     "version": "0.37.0",
-    "declared_license": "unspecified"
+    "declared_license": null,
+    "license_classifiers": []
   },
   {
     "name": "bcrypt",
     "version": "5.0.0",
-    "declared_license": "Apache-2.0"
+    "declared_license": "Apache-2.0",
+    "license_classifiers": [
+      "License :: OSI Approved :: Apache Software License"
+    ]
   },
   {
     "name": "certifi",
     "version": "2026.10.19",
-    "declared_license": "MPL-2.0"
+    "declared_license": "MPL-2.0",
+    "license_classifiers": [
+      "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)"
+    ]
   },
   {
     "name": "cffi",
     "version": "2.1.1",
-    "declared_license": "MIT-0"
+    "declared_license": "MIT-0",
+    "license_classifiers": []
   },
   {
     "name": "charset-normalizer",
     "version": "3.5.1",
-    "declared_license": "MIT"
+    "declared_license": "MIT",
+    "license_classifiers": []
   },
   {
     "name": "colorama",
     "version": "0.4.6",
-    "declared_license": "BSD-3-Clause"
+    "declared_license": "BSD-3-Clause",
+    "license_classifiers": [
+      "License :: OSI Approved :: BSD License"
+    ]
   },
   {
     "name": "cryptography",
     "version": "50.0.2",
-    "declared_license": "Apache-2.0 OR BSD-3-Clause"
+    "declared_license": "Apache-2.0 OR BSD-3-Clause",
+    "license_classifiers": []
   },
   {
     "name": "Cython",
     "version": "3.3.0",
-    "declared_license": "Apache-2.0"
+    "declared_license": "Apache-2.0",
+    "license_classifiers": []
   },
   {
     "name": "dbus-fast",
     "version": "5.2.0",
-    "declared_license": "MIT"
+    "declared_license": "MIT",
+    "license_classifiers": [
+      "License :: OSI Approved :: MIT License"
+    ]
   },
   {
     "name": "dbus-python",
     "version": "1.5.1",
-    "declared_license": "MIT AND (GPL-2.0-or-later OR AFL-2.1)"
+    "declared_license": "MIT AND (GPL-2.0-or-later OR AFL-2.1)",
+    "license_classifiers": []
   },
   {
     "name": "distro",
     "version": "1.9.0",
-    "declared_license": "Apache License, Version 2.0"
+    "declared_license": "Apache License, Version 2.0",
+    "license_classifiers": [
+      "License :: OSI Approved :: Apache Software License"
+    ]
   },
   {
     "name": "fido2",
     "version": "2.2.1",
-    "declared_license": "Copyright (c) 2018 Yubico AB"
+    "declared_license": "Copyright (c) 2018 Yubico AB\n All rights reserved.\n\n Redistribution and use in source and binary forms, with or without\n modification, are permitted provided that the following conditions are\n met:\n\n   * Redistributions of source code must retain the above copyright\n     notice, this list of conditions and the following disclaimer.\n\n   * Redistributions in binary form must reproduce the above\n     copyright notice, this list of conditions and the following\n     disclaimer in the documentation and/or other materials provided\n     with the distribution.\n\n THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\n LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR\n A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT\n OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,\n SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT\n LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\n DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\n THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.",
+    "license_classifiers": [
+      "License :: OSI Approved :: BSD License",
+      "License :: OSI Approved :: Apache Software License",
+      "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)"
+    ]
   },
   {
     "name": "frozenlist",
     "version": "1.8.0",
-    "declared_license": "Apache-2.0"
+    "declared_license": "Apache-2.0",
+    "license_classifiers": []
   },
   {
     "name": "html2text",
     "version": "2025.4.15",
-    "declared_license": "GPL-3.0-or-later"
+    "declared_license": "GPL-3.0-or-later",
+    "license_classifiers": []
   },
   {
     "name": "idna",
     "version": "3.20",
-    "declared_license": "BSD-3-Clause"
+    "declared_license": "BSD-3-Clause",
+    "license_classifiers": []
   },
   {
     "name": "importlib_metadata",
     "version": "9.1.0",
-    "declared_license": "Apache-2.0"
+    "declared_license": "Apache-2.0",
+    "license_classifiers": []
   },
   {
     "name": "jaraco.classes",
     "version": "3.4.0",
-    "declared_license": "unspecified"
+    "declared_license": null,
+    "license_classifiers": [
+      "License :: OSI Approved :: MIT License"
+    ]
   },
   {
     "name": "jaraco.collections",
     "version": "5.1.0",
-    "declared_license": "unspecified"
+    "declared_license": null,
+    "license_classifiers": [
+      "License :: OSI Approved :: MIT License"
+    ]
   },
   {
     "name": "jaraco.context",
     "version": "6.1.3.dev0+g098f39c91.d20260403",
-    "declared_license": "MIT"
+    "declared_license": "MIT",
+    "license_classifiers": []
   },
   {
     "name": "jaraco.functools",
     "version": "4.1.0",
-    "declared_license": "unspecified"
+    "declared_license": null,
+    "license_classifiers": [
+      "License :: OSI Approved :: MIT License"
+    ]
   },
   {
     "name": "jaraco.text",
     "version": "4.0.0",
-    "declared_license": "unspecified"
+    "declared_license": null,
+    "license_classifiers": [
+      "License :: OSI Approved :: MIT License"
+    ]
   },
   {
     "name": "jeepney",
     "version": "0.9.0",
-    "declared_license": "MIT"
+    "declared_license": "MIT",
+    "license_classifiers": []
   },
   {
     "name": "Jinja2",
     "version": "3.1.6",
-    "declared_license": "unspecified"
+    "declared_license": null,
+    "license_classifiers": [
+      "License :: OSI Approved :: BSD License"
+    ]
   },
   {
     "name": "keyring",
     "version": "25.7.0",
-    "declared_license": "unspecified"
+    "declared_license": null,
+    "license_classifiers": []
   },
   {
     "name": "libtorrent",
     "version": "2.1.2",
-    "declared_license": "BSD"
+    "declared_license": "BSD",
+    "license_classifiers": []
   },
   {
     "name": "lit",
     "version": "23.1.4.dev0",
-    "declared_license": "Apache-2.0 with LLVM exception"
+    "declared_license": "Apache-2.0 with LLVM exception",
+    "license_classifiers": [
+      "License :: OSI Approved :: Apache Software License"
+    ]
   },
   {
     "name": "Mako",
     "version": "1.4.3.dev0",
-    "declared_license": "MIT"
+    "declared_license": "MIT",
+    "license_classifiers": []
   },
   {
     "name": "Markdown",
     "version": "3.11.2",
-    "declared_license": "BSD-3-Clause"
+    "declared_license": "BSD-3-Clause",
+    "license_classifiers": []
   },
   {
     "name": "MarkupSafe",
     "version": "3.0.4",
-    "declared_license": "BSD-3-Clause"
+    "declared_license": "BSD-3-Clause",
+    "license_classifiers": []
   },
   {
     "name": "meson",
     "version": "1.12.1",
-    "declared_license": "Apache License, Version 2.0"
+    "declared_license": "Apache License, Version 2.0",
+    "license_classifiers": [
+      "License :: OSI Approved :: Apache Software License"
+    ]
   },
   {
     "name": "more-itertools",
     "version": "11.2.1",
-    "declared_license": "MIT"
+    "declared_license": "MIT",
+    "license_classifiers": []
   },
   {
     "name": "multidict",
     "version": "7.0.0",
-    "declared_license": "Apache License 2.0"
+    "declared_license": "Apache License 2.0",
+    "license_classifiers": []
   },
   {
     "name": "nftables",
     "version": "0.1",
-    "declared_license": "unspecified"
+    "declared_license": null,
+    "license_classifiers": [
+      "License :: OSI Approved :: GNU General Public License v2 (GPLv2)"
+    ]
   },
   {
     "name": "numpy",
     "version": "2.5.4",
-    "declared_license": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0"
+    "declared_license": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0",
+    "license_classifiers": []
   },
   {
     "name": "packaging",
     "version": "26.3",
-    "declared_license": "Apache-2.0 OR BSD-2-Clause"
+    "declared_license": "Apache-2.0 OR BSD-2-Clause",
+    "license_classifiers": []
   },
   {
     "name": "pkg_resources",
     "version": "81.0.0",
-    "declared_license": "MIT"
+    "declared_license": "MIT",
+    "license_classifiers": []
   },
   {
     "name": "platformdirs",
     "version": "4.13.5",
-    "declared_license": "MIT"
+    "declared_license": "MIT",
+    "license_classifiers": [
+      "License :: OSI Approved :: MIT License"
+    ]
   },
   {
     "name": "propcache",
     "version": "0.5.4",
-    "declared_license": "Apache-2.0"
+    "declared_license": "Apache-2.0",
+    "license_classifiers": []
   },
   {
     "name": "proton-core",
     "version": "0.7.4",
-    "declared_license": "GPLv3"
+    "declared_license": "GPLv3",
+    "license_classifiers": [
+      "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
+    ]
   },
   {
     "name": "proton-keyring-linux",
     "version": "0.2.3",
-    "declared_license": "GPLv3"
+    "declared_license": "GPLv3",
+    "license_classifiers": [
+      "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
+    ]
   },
   {
     "name": "proton-vpn-api-core",
     "version": "5.8.7",
-    "declared_license": "GPLv3"
+    "declared_license": "GPLv3",
+    "license_classifiers": [
+      "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
+    ]
   },
   {
     "name": "proton-vpn-daemon",
     "version": "0.13.8",
-    "declared_license": "GPLv3"
+    "declared_license": "GPLv3",
+    "license_classifiers": [
+      "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
+    ]
   },
   {
     "name": "proton-vpn-gtk-app",
     "version": "4.18.7",
-    "declared_license": "GPLv3"
+    "declared_license": "GPLv3",
+    "license_classifiers": [
+      "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
+    ]
   },
   {
     "name": "psutil",
     "version": "7.2.2",
-    "declared_license": "BSD-3-Clause"
+    "declared_license": "BSD-3-Clause",
+    "license_classifiers": []
   },
   {
     "name": "pycairo",
     "version": "1.29.2",
-    "declared_license": "LGPL-2.1-only OR MPL-1.1"
+    "declared_license": "LGPL-2.1-only OR MPL-1.1",
+    "license_classifiers": []
   },
   {
     "name": "pycparser",
     "version": "3.12",
-    "declared_license": "BSD-3-Clause"
+    "declared_license": "BSD-3-Clause",
+    "license_classifiers": []
   },
   {
     "name": "Pygments",
     "version": "2.21.0",
-    "declared_license": "BSD-2-Clause"
+    "declared_license": "BSD-2-Clause",
+    "license_classifiers": []
   },
   {
     "name": "PyGObject",
     "version": "3.58.1",
-    "declared_license": "LGPL-2.1-or-later"
+    "declared_license": "LGPL-2.1-or-later",
+    "license_classifiers": []
   },
   {
     "name": "PyNaCl",
     "version": "1.6.2",
-    "declared_license": "Apache-2.0"
+    "declared_license": "Apache-2.0",
+    "license_classifiers": [
+      "License :: OSI Approved :: Apache Software License"
+    ]
   },
   {
     "name": "pyOpenSSL",
     "version": "26.4.0",
-    "declared_license": "Apache License, Version 2.0"
+    "declared_license": "Apache License, Version 2.0",
+    "license_classifiers": [
+      "License :: OSI Approved :: Apache Software License"
+    ]
   },
   {
     "name": "python-gnupg",
     "version": "0.5.7",
-    "declared_license": "BSD"
+    "declared_license": "BSD",
+    "license_classifiers": [
+      "License :: OSI Approved :: BSD License"
+    ]
   },
   {
     "name": "pyxdg",
     "version": "0.28",
-    "declared_license": "unspecified"
+    "declared_license": null,
+    "license_classifiers": [
+      "License :: OSI Approved :: GNU Lesser General Public License v2 (LGPLv2)"
+    ]
   },
   {
     "name": "Reflector",
     "version": "2023.6.28.0.36.1",
-    "declared_license": "unspecified"
+    "declared_license": null,
+    "license_classifiers": []
   },
   {
     "name": "requests",
     "version": "2.34.2",
-    "declared_license": "Apache-2.0"
+    "declared_license": "Apache-2.0",
+    "license_classifiers": [
+      "License :: OSI Approved :: Apache Software License"
+    ]
   },
   {
     "name": "SecretStorage",
     "version": "3.5.0",
-    "declared_license": "BSD-3-Clause"
+    "declared_license": "BSD-3-Clause",
+    "license_classifiers": []
   },
   {
     "name": "sentry-sdk",
     "version": "2.73.0",
-    "declared_license": "MIT"
+    "declared_license": "MIT",
+    "license_classifiers": []
   },
   {
     "name": "setuptools",
     "version": "84.2.1",
-    "declared_license": "MIT"
+    "declared_license": "MIT",
+    "license_classifiers": []
   },
   {
     "name": "shtab",
     "version": "1.12.1",
-    "declared_license": "MPL-2.0"
+    "declared_license": "MPL-2.0",
+    "license_classifiers": []
   },
   {
     "name": "smbus",
     "version": "1.1",
-    "declared_license": "GPLv2"
+    "declared_license": "GPLv2",
+    "license_classifiers": []
   },
   {
     "name": "ssh-audit",
     "version": "3.9.0",
-    "declared_license": "MIT"
+    "declared_license": "MIT",
+    "license_classifiers": [
+      "License :: OSI Approved :: MIT License"
+    ]
   },
   {
     "name": "TBB",
     "version": "2023.1.0",
-    "declared_license": "Dual license: Apache or Proprietary"
+    "declared_license": "Dual license: Apache or Proprietary",
+    "license_classifiers": []
   },
   {
     "name": "termcolor",
     "version": "3.3.0",
-    "declared_license": "MIT"
+    "declared_license": "MIT",
+    "license_classifiers": []
   },
   {
     "name": "tldr",
     "version": "3.4.4",
-    "declared_license": "MIT"
+    "declared_license": "MIT",
+    "license_classifiers": [
+      "License :: OSI Approved :: MIT License"
+    ]
   },
   {
     "name": "tqdm",
     "version": "4.70.1",
-    "declared_license": "MPL-2.0 AND MIT"
+    "declared_license": "MPL-2.0 AND MIT",
+    "license_classifiers": []
   },
   {
     "name": "typing_extensions",
     "version": "4.16.0",
-    "declared_license": "PSF-2.0"
+    "declared_license": "PSF-2.0",
+    "license_classifiers": []
   },
   {
     "name": "urllib3",
     "version": "2.8.0",
-    "declared_license": "MIT"
+    "declared_license": "MIT",
+    "license_classifiers": []
   },
   {
     "name": "VapourSynth",
     "version": "81",
-    "declared_license": "LGPL-2.1-or-later"
+    "declared_license": "LGPL-2.1-or-later",
+    "license_classifiers": []
   },
   {
     "name": "wheel",
     "version": "0.48.0",
-    "declared_license": "MIT"
+    "declared_license": "MIT",
+    "license_classifiers": []
   },
   {
     "name": "yarl",
     "version": "1.25.1",
-    "declared_license": "Apache-2.0"
+    "declared_license": "Apache-2.0",
+    "license_classifiers": []
   },
   {
     "name": "yt-dlp",
     "version": "2026.10.21",
-    "declared_license": "Unlicense"
+    "declared_license": "Unlicense",
+    "license_classifiers": []
   },
   {
     "name": "yt-dlp-ejs",
     "version": "0.8.0",
-    "declared_license": "Unlicense AND MIT AND ISC"
+    "declared_license": "Unlicense AND MIT AND ISC",
+    "license_classifiers": []
   },
   {
     "name": "zipp",
     "version": "3.21.0",
-    "declared_license": "unspecified"
+    "declared_license": null,
+    "license_classifiers": [
+      "License :: OSI Approved :: MIT License"
+    ]
   }
 ]

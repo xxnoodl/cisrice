@@ -23,6 +23,7 @@ jobs:
       CISRICE_INTEGRATION: "1"
     steps:
       - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg openssl
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
       - run: python -m pip install 'pip>=26.2,<27'
@@ -62,6 +63,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg openssl
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
       - uses: actions/setup-node@v4

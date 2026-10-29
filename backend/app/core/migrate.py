@@ -58,7 +58,9 @@ def main() -> None:
                 if table in {"alembic_version", "system_records"}
                 else (
                     "SELECT, INSERT"
-                    if table == "audit_events"
+                    if table in {"audit_events", "media_objects", "brand_assets"}
+                    else "SELECT, INSERT, UPDATE"
+                    if table in {"durable_jobs", "rights_decisions"}
                     else "SELECT, INSERT, UPDATE, DELETE"
                 )
             )

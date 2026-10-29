@@ -101,3 +101,29 @@ the application database to test migrations: the Linux verifier uses a disposabl
 The production entrypoint remains app.main:app. Only the isolated browser verifier
 uses backend/tests/browser_app.py with explicitly simulated feed responses.
 Discovery is synchronous; failures appear in its history. No scheduler is enabled.
+
+## Milestone 3 upgrade and media storage
+The migration adds durable jobs (0004), rights/media tables (0005) and restricted
+append-only grants for canonical objects/brand links. Existing portfolio/discovery
+records remain intact. Run docker compose up --build --wait.
+The new dispatcher scans PostgreSQL; it must run alongside the worker for delivery
+and expired-lease recovery. The worker/API share the media_data named volume at /data.
+Keep STORAGE_ROOT=/data for the supplied Compose mounts; custom roots require matching
+volume/init configuration. Native Python settings support another configured root.
+A short root storage initializer grants volume ownership to uid 10001; only that
+initializer has CHOWN/FOWNER. Application roles drop all Linux capabilities.
+Configure quota/minimum-free/file-size and temporary retention in .env.
+No OAuth credentials or social account passwords are used by acquisition.
+
+Before the first M3 upgrade a private pre-upgrade pg_dump archive was created under
+data/backups; its archive listing was verified. It has NOT been restore-tested.
+Backup the media_data volume separately; the database dump does not contain media.
+No application database downgrade or volume deletion is part of verification.
+Use docs/api/acquisition.md for worker/retention behavior and known limitations.
+
+On slow connections, use the sequential build commands in README. Package-cache
+mounts preserve successful downloads between retries. A backend-only replacement may
+require docker compose restart frontend to refresh nginx's resolved upstream address.
+Final M3 image checks verified uid 10001, zero effective capabilities, media-volume
+write/hardlink permissions and FFmpeg 7.1.5 local decode. Only generated temporary
+fixtures were used; no real portfolio records or canonical objects were deleted.

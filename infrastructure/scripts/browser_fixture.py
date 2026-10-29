@@ -29,7 +29,10 @@ def run_browser(environment: dict[str, str]) -> None:
     env["CISRICE_API_URL"] = "http://127.0.0.1:18000"
     env["ALLOWED_ORIGINS"] = json.dumps(["http://127.0.0.1:14173"])
     env["RATE_NAMESPACE"] = "cisrice-e2e-" + uuid4().hex
-    env["PYTHONPATH"] = str(ROOT / "backend" / "tests") + os.pathsep + str(ROOT / "backend")
+    env["TASK_QUEUE"] = "cisrice_e2e_" + uuid4().hex
+    env["PYTHONPATH"] = (
+        str(ROOT / "backend" / "tests") + os.pathsep + str(ROOT / "backend")
+    )
     engine = create_engine(env["DATABASE_URL"])
     with Session(engine) as database, database.begin():
         database.add(
@@ -40,9 +43,65 @@ def run_browser(environment: dict[str, str]) -> None:
         )
     engine.dispose()
     processes: list[subprocess.Popen[str]] = []
-    with tempfile.TemporaryFile(mode="w+t") as log:
+    with (
+        tempfile.TemporaryDirectory(prefix="cisrice-browser-") as fixture_root,
+        tempfile.TemporaryFile(mode="w+t") as log,
+    ):
+        env["STORAGE_ROOT"] = str(Path(fixture_root) / "media")
+        env["MINIMUM_FREE_BYTES"] = "0"
+        env["MAX_MEDIA_BYTES"] = "1048576"
+        env["STORAGE_QUOTA_BYTES"] = "10485760"
+        env["CISRICE_MEDIA_FIXTURE"] = str(Path(fixture_root) / "fixture.mp4")
+        subprocess.run(
+            [
+                "ffmpeg",
+                "-nostdin",
+                "-v",
+                "error",
+                "-f",
+                "lavfi",
+                "-i",
+                "color=c=blue:s=160x90:d=1",
+                "-f",
+                "lavfi",
+                "-i",
+                "sine=frequency=440:duration=1",
+                "-c:v",
+                "libx264",
+                "-threads",
+                "1",
+                "-pix_fmt",
+                "yuv420p",
+                "-c:a",
+                "aac",
+                "-shortest",
+                "-movflags",
+                "+faststart",
+                env["CISRICE_MEDIA_FIXTURE"],
+            ],
+            stdin=subprocess.DEVNULL,
+            check=True,
+            timeout=30,
+        )
         try:
             for command, cwd in [
+                (
+                    [
+                        sys.executable,
+                        "-m",
+                        "celery",
+                        "-A",
+                        "acquisition_worker_app:celery_app",
+                        "worker",
+                        "--pool=solo",
+                        "--concurrency=1",
+                        "--loglevel=WARNING",
+                        "--without-gossip",
+                        "--without-mingle",
+                    ],
+                    ROOT / "backend",
+                ),
+                ([sys.executable, "-m", "app.workers.dispatch"], ROOT / "backend"),
                 (
                     [
                         sys.executable,
@@ -73,7 +132,10 @@ def run_browser(environment: dict[str, str]) -> None:
                         start_new_session=True,
                     )
                 )
-            for url in ["http://127.0.0.1:18000/api/health/ready", env["CISRICE_E2E_URL"]]:
+            for url in [
+                "http://127.0.0.1:18000/api/health/ready",
+                env["CISRICE_E2E_URL"],
+            ]:
                 deadline = time.monotonic() + 30
                 while True:
                     try:
@@ -82,10 +144,14 @@ def run_browser(environment: dict[str, str]) -> None:
                                 break
                     except (URLError, TimeoutError):
                         pass
-                    if time.monotonic() >= deadline or any(p.poll() is not None for p in processes):
+                    if time.monotonic() >= deadline or any(
+                        p.poll() is not None for p in processes
+                    ):
                         log.seek(0)
                         print(log.read())
-                        raise RuntimeError("Isolated browser test servers did not become ready")
+                        raise RuntimeError(
+                            "Isolated browser test servers did not become ready"
+                        )
                     time.sleep(0.2)
             subprocess.run(
                 ["npx", "playwright", "test"],

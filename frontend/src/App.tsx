@@ -4,6 +4,7 @@ import { api, session, type Workspace, type Niche, type Brand } from "./api";
 import { LoginForm } from "./Auth";
 import { Portfolio } from "./Portfolio";
 import { Discovery } from "./Discovery";
+import { MediaLibrary } from "./MediaLibrary";
 
 type Health = { status: string; dependencies: Record<string, string> };
 export async function loadHealth(): Promise<Health> {
@@ -71,7 +72,6 @@ function Operations() {
 }
 
 const planned = [
-  "Media Library",
   "Intelligence",
   "Production",
   "Review Queue",
@@ -183,6 +183,11 @@ export function App() {
                 {name}
               </NavLink>
             ))}
+          {user && (
+            <NavLink to={{ pathname: "/media", search: search.toString() }}>
+              Media Library
+            </NavLink>
+          )}
           {user ? (
             <NavLink to={{ pathname: "/settings", search: search.toString() }}>
               Settings
@@ -214,7 +219,7 @@ export function App() {
       </aside>
       <main id="main">
         <header>
-          <p className="eyebrow">MILESTONE 2 · DISCOVERY & RESEARCH</p>
+          <p className="eyebrow">MILESTONE 3 · RIGHTS & MEDIA ACQUISITION</p>
           <h2>Your local production workspace</h2>
           {user && (
             <div className="context" aria-label="Portfolio context">
@@ -314,6 +319,25 @@ export function App() {
             />
             <Route path="/portfolio" element={portfolio} />
             <Route path="/settings" element={portfolio} />
+            <Route
+              path="/media"
+              element={
+                user ? (
+                  workspace && brand ? (
+                    <MediaLibrary
+                      workspace={workspace.id}
+                      brand={brand}
+                      brands={brands.data ?? []}
+                      session={user}
+                    />
+                  ) : (
+                    <p>Create a workspace and brand first.</p>
+                  )
+                ) : (
+                  <LoginForm />
+                )
+              }
+            />
             {["/discovery", "/research"].map((path) => (
               <Route
                 key={path}

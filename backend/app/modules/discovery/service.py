@@ -4,10 +4,11 @@ from uuid import UUID
 
 from fastapi import HTTPException
 
+from app.contracts.discovery import AcquisitionCandidate
+from app.core.network import NetworkPolicyError as FeedError
+from app.core.network import canonical_url
 from app.modules.discovery.feeds import (
-    FeedError,
     FeedItem,
-    canonical_url,
     feed_url,
     fingerprint,
     parse_feed,
@@ -21,6 +22,13 @@ from app.modules.identity.service import IdentityService
 
 
 class DiscoveryService:
+    def acquisition_candidate(self, identifier: UUID) -> AcquisitionCandidate:
+        self.authorize(True)
+        row = self.candidate(identifier)
+        if row.status != "APPROVED":
+            raise HTTPException(409, "Approve the research candidate before rights review")
+        return AcquisitionCandidate(row.id, row.title, row.original_url)
+
     def __init__(self, repo: DiscoveryRepository, identity: IdentityService, actor: User):
         self.repo, self.identity, self.actor = repo, identity, actor
 

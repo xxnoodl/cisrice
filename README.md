@@ -2,8 +2,8 @@
 
 Cisrice is a local-first, multi-brand social media research, media, production,
 publishing and analytics platform. Milestone 0 is verified on native Linux.
-Milestones 1–2 implement local identity, portfolio management and bounded feed discovery; see STATUS.md for
-the current verification checkpoint. Acquisition, production, publishing and analytics remain later milestones.
+Milestones 1–3 implement local identity, portfolio management, feed discovery and rights-aware acquisition; see STATUS.md for
+the current verification checkpoint. Production, publishing and analytics remain later milestones.
 
 ## Available functionality
 
@@ -114,7 +114,7 @@ are not stored yet; an externally keyed vault is required before adding token st
 Provisioning is operator-only: no public signup, invitation email or self-service
 password reset. Portfolio UI lists show up to 200 records per collection; API
 pagination is available. Account URLs are stored references, not fetched or verified.
-Publishing, media acquisition, inference and analytics are not implemented yet.
+Publishing, inference and analytics are not implemented yet.
 
 Default HTTP cookies are appropriate only for localhost/SSH-tunneled use. Set
 COOKIE_SECURE=true with explicit ALLOWED_HOSTS/ALLOWED_ORIGINS JSON arrays before a
@@ -139,3 +139,34 @@ Discovery is manually triggered and synchronous, with a 60-second source cooldow
 non-HTTPS fetching and private networks are rejected. Source policy acknowledgement
 does not establish redistribution rights. Existing imported data is available offline.
 See docs/api/discovery.md for contracts, scoring and deferred capabilities.
+
+## Rights and media acquisition
+In Media Library, select approved research or enter an owned/permitted HTTPS source.
+Record ownership/license/permission evidence, required attribution and restrictions.
+Confirm that acquisition and the intended use are permitted; then submit acquisition.
+Unknown or revoked rights cannot be queued. Research approval does not grant a license.
+
+PostgreSQL stores durable job state; the dispatcher and Celery worker execute requests.
+The library shows progress, cancellation, errors and validated media. Duplicate bytes
+share one immutable SHA-256 object while each brand keeps its own rights references.
+Explicit cross-brand reuse requires edit access to both brands and destination rights.
+Preview/download requires current authorization and active rights. Nothing is published.
+
+Default limits: one concurrent acquisition/validation, 512 MiB per file, 20 GiB storage
+quota, 512 MiB minimum free. Direct HTTPS video is supported; the restricted yt-dlp
+resolver selects a single direct HTTPS format where available. Authenticated/DRM/live/
+playlist/segmented acquisition is unsupported. Availability on public platforms is not
+guaranteed. Local FFmpeg validation can reject large/long clips after its time limit.
+
+Canonical objects are always retained. Old terminal-job staging and optional quarantine
+cleanup is configurable, operator-only and dry-run by default:
+    docker compose exec worker python -m app.modules.acquisition.maintenance cleanup
+See docs/api/acquisition.md before using --apply. A database dump alone does not back up
+the media_data volume. Backup restoration and broad fault-injection remain unverified.
+
+The supplied Docker build uses package-cache mounts and bounded network retries.
+On a slow network, build backend roles first, then frontend, then start without rebuilding:
+    docker compose build api worker migrate dispatcher storage-init
+    docker compose build frontend
+    docker compose up --no-build --wait
+See STATUS.md for the current deployment acceptance checkpoint.

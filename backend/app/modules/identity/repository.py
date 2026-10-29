@@ -21,6 +21,9 @@ from app.modules.identity.models import (
 
 
 class IdentityRepository:
+    def user_by_id(self, identifier: UUID) -> User | None:
+        return self.db.get(User, identifier, populate_existing=True)
+
     def __init__(self, session: Session) -> None:
         self.db = session
 

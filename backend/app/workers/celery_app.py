@@ -13,5 +13,6 @@ celery_app.conf.update(
     worker_prefetch_multiplier=1,
     timezone="UTC",
     enable_utc=True,
+    task_default_queue=settings.task_queue,
+    include=["app.workers.acquisition_tasks"],
 )
-# No business tasks until PostgreSQL durable job records and idempotent handlers exist.
